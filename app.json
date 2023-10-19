@@ -21,10 +21,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.vpn"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#0077E6"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7bf8f31d-a520-4f89-88e8-db100cc50c66"
+      }
     }
   }
 }

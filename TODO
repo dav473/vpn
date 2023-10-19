@@ -1,0 +1,30 @@
+eas build:
+eas.json
+{
+  "cli": {
+    "version": ">= 5.4.0"
+  },
+  "build": {
+    "development": {
+      "distribution": "internal"
+    },
+    "preview": {
+      "android": {
+        "buildType":"apk"
+      }
+    },
+    "production": {}
+  },
+  "submit": {
+    "production": {}
+  }
+}
+
+
+eas build -p android --profile preview
+
+
+adb install:
+phone fixed MAC -> pair->connect->install
+adb connect 10.0.0.129:PORT
+adb -s 10.0.0.129 install .\app-release.apk
