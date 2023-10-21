@@ -1,10 +1,11 @@
-import { ButtonText, Button } from "@gluestack-ui/themed"
+import { ButtonText, Button,ButtonSpinner } from "@gluestack-ui/themed"
 import {NativeModules} from 'react-native'
 import { useState, useEffect } from 'react';
 
 const StartButton = () => {
     const {Wireguard} = NativeModules;
     const [isConnected, setIsConnected] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         Wireguard.getStatus((status:boolean)=>{
             setIsConnected(status)
@@ -12,10 +13,10 @@ const StartButton = () => {
       });
 
     const onPress = () =>{
-        console.log("clicked")
+        setIsLoading(true)
         Wireguard.connect((res: boolean) => {
-            console.log("执行结果: "+res)
             setIsConnected(!isConnected)
+            setIsLoading(false)
         })
     }
 
@@ -23,11 +24,11 @@ const StartButton = () => {
         <Button
             h={'32%'}
             variant="solid"
-           // action="negative"
             onPress={onPress}
             action={isConnected?"negative":"primary"}
         >
-            <ButtonText size="xl" >Tap to Connect  </ButtonText>
+            <ButtonText size="xl" >{isConnected?"Disconnect":"Tap to Connect"}</ButtonText>
+            {isLoading && <ButtonSpinner ml="$2" size="small" />}
         </Button>
     )
 }
