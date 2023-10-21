@@ -1,21 +1,33 @@
 import { ButtonText, Button } from "@gluestack-ui/themed"
 import {NativeModules} from 'react-native'
+import { useState, useEffect } from 'react';
 
 const StartButton = () => {
-
     const {Wireguard} = NativeModules;
+    const [isConnected, setIsConnected] = useState(false);
+    useEffect(() => {
+        Wireguard.getStatus((status:boolean)=>{
+            setIsConnected(status)
+        })
+      });
+
     const onPress = () =>{
-        console.log("clicked!")
-        Wireguard.connect((res: Boolean) => console.log("执行结果: "+res))
+        console.log("clicked")
+        Wireguard.connect((res: boolean) => {
+            console.log("执行结果: "+res)
+            setIsConnected(!isConnected)
+        })
     }
+
     return (
         <Button
             h={'32%'}
             variant="solid"
-            action="primary"
+           // action="negative"
+            onPress={onPress}
+            action={isConnected?"negative":"primary"}
         >
-            <ButtonText size="xl" onPress={onPress}>Tap to Connect  </ButtonText>
-
+            <ButtonText size="xl" >Tap to Connect  </ButtonText>
         </Button>
     )
 }

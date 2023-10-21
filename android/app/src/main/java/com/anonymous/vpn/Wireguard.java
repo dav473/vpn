@@ -35,8 +35,18 @@ public class Wireguard extends ReactContextBaseJavaModule  {
 
     }
 
-
-
+    @ReactMethod
+    public void getStatus(Callback callback){
+        Boolean status = false;
+        try{
+            if (backend.getState(PersistentConnectionProperties.getInstance().getTunnel()) == UP) {
+                status = true;
+            }
+        }catch(Exception e){
+            status = false;
+        }
+        callback.invoke(status);
+    }
 
     @ReactMethod
     public void connect(Callback callback) {
@@ -45,11 +55,6 @@ public class Wireguard extends ReactContextBaseJavaModule  {
         Interface.Builder interfaceBuilder = new Interface.Builder();
         Peer.Builder peerBuilder = new Peer.Builder();
         TunnelModel tunnelModel = DataSource.getTunnelModel();
-
-        Intent intentPrepare = GoBackend.VpnService.prepare(getCurrentActivity());
-        if(intentPrepare != null) {
-            getCurrentActivity().startActivityForResult(intentPrepare, 0);
-        }
 
         AsyncTask.execute(new Runnable() {
             @Override
@@ -71,11 +76,11 @@ public class Wireguard extends ReactContextBaseJavaModule  {
                     e.printStackTrace();
                 }
                 callback.invoke(isSuccess);
-                Log.d("testing","done");
             }
         });
-
     }
+
+
 
 
 }

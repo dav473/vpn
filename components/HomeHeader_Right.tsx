@@ -1,11 +1,21 @@
 import { Button, Text, Icon, CircleIcon, useToken, ButtonText } from "@gluestack-ui/themed"
 import { useNavigation } from "@react-navigation/native"
 import { selectionScreenProp } from "../App";
-
+import {NativeModules} from 'react-native'
+import { useState, useEffect } from 'react'
 
 const HomeHeader_Right = () => {
+
+    const {Wireguard} = NativeModules;
+    const [isConnected, setIsConnected] = useState(false);
+    useEffect(() => {
+        Wireguard.getStatus((status:boolean)=>{
+            setIsConnected(status)
+        })
+      });
+
     const navigation = useNavigation<selectionScreenProp>()
-    const iconColor = useToken("colors", "error400")
+    const iconColor = useToken("colors", isConnected?"success400":"error400")
 
     const doNavigation = () => {
         navigation.navigate('SelectionScreen')

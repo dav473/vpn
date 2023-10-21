@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
@@ -38,6 +39,12 @@ public class MainActivity extends ReactActivity {
       PersistentConnectionProperties.getInstance().setBackend(new GoBackend(this));
       backend = PersistentConnectionProperties.getInstance().getBackend();
     }
+
+    Intent intentPrepare = GoBackend.VpnService.prepare(this);
+    if(intentPrepare != null) {
+      startActivityForResult(intentPrepare, 0);
+    }
+
     setTheme(R.style.AppTheme);
     super.onCreate(null);
   }
