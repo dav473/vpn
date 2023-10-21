@@ -1,3 +1,6 @@
+1. Diplay ping result for each Server
+2. User rewards for watching ads
+
 eas build:
 eas.json
 {
